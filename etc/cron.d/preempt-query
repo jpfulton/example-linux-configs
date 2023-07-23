@@ -1,0 +1,10 @@
+# /etc/cron.d/preempt-query: crontab entries for the vm preempt event query script
+
+SHELL=/bin/sh
+
+* * * * * root ( /usr/bin/query-for-preempt-event.sh ) 
+* * * * * root ( sleep 10 ; /usr/bin/query-for-preempt-event.sh )  
+* * * * * root ( sleep 20 ; /usr/bin/query-for-preempt-event.sh )  
+* * * * * root ( sleep 30 ; /usr/bin/query-for-preempt-event.sh )  
+* * * * * root ( sleep 40 ; /usr/bin/query-for-preempt-event.sh )  
+* * * * * root ( sleep 50 ; /usr/bin/query-for-preempt-event.sh )
