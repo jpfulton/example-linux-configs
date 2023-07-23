@@ -1,0 +1,9 @@
+#!/bin/sh
+echo
+echo "General System Information:"
+echo
+/usr/bin/neofetch --disable title --color_blocks off
+
+echo
+echo "System Disk Usage:"
+/usr/bin/inxi -D
