@@ -9,5 +9,5 @@ ENDPOINT_URL="http://${ENDPOINT_IP}/metadata/scheduledevents?api-version=${API_V
 if [ "$(curl -s -H ${HEADER} ${ENDPOINT_URL} | grep -c Preempt)" -ge 1 ]
     then
         echo "Preempt event found...";
-	    shutdown;
+	    shutdown now "Shutting down. Virutal machine is being evicted.";
 fi
