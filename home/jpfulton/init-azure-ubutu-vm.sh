@@ -27,3 +27,18 @@ if [ ! -f ${MOTD_PATH}${MOTD_FILE} ]
     echo "---";
     echo;
 fi
+
+# Set up eviction query and shutdown script
+EVICTION_QUERY_CRON_SNIPPET_FILE="preempt-query";
+EVICTION_QUERY_SCRIPT="query-for-preempt-event.sh";
+echo "Setting up eviction query script...";
+
+wget ${BASE_REPO_URL}/usr/local/sbin/${EVICTION_QUERY_SCRIPT};
+chmod ug+x ./${EVICTION_QUERY_SCRIPT}
+mv ./${EVICTION_QUERY_SCRIPT} /usr/local/sbin/
+
+wget ${BASE_REPO_URL}/etc/cron.d/${EVICTION_QUERY_CRON_SNIPPET_FILE};
+mv ./${EVICTION_QUERY_CRON_SNIPPET_FILE} /etc/cron.d/
+
+echo "---";
+echo;
