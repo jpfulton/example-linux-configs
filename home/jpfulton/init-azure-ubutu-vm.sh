@@ -3,12 +3,40 @@
 # exit on error
 set -e;
 
+# ensure this script is running as root or sudo
+if [ $(id -u) -ne 0 ]
+  then
+    echo "This script must be run as root or in a sudo context. Exiting.";
+    exit 1;
+fi
+
 BASE_REPO_URL="https://raw.githubusercontent.com/jpfulton/example-linux-configs/main";
 
 # Upgrade base image packages
 echo "Upgrading base packages...";
 apt update;
 apt upgrade -y;
+echo "---";
+echo;
+
+# Set up local firewall basics
+DEFAULTS_PATH="/etc/default/";
+UFW_DEFAULTS_FILE="ufw";
+if [ $(ufw status | grep -c inactive) -ge 1 ]
+  then
+    echo "Local firewall is inactive. Configuring and enabling with SSH rule...";
+
+    wget ${BASE_REPO_URL}${DEFAULTS_PATH}${UFW_DEFAULTS_FILE} -O ${UFW_DEFAULTS_FILE};
+    mv ${UFW_DEFAULTS_FILE} ${DEFAULTS_PATH};
+
+    ufw allow ssh;
+    ufw show added;
+    ufw enable;
+    ufw status numbered;
+  
+  else
+    echo "Local fireall is active. No configuration or rules applied.";
+fi
 echo "---";
 echo;
 
