@@ -5,13 +5,15 @@ set -e;
 
 RESOURCE_GROUP="personal-network"
 
-echo "Querying for deallocated VMs...";
+echo "Querying for deallocated VMs tagged for restart after eviction...";
 SPOT_ALLOCATION_QUERY="
 	[?
 		billingProfile.maxPrice != null && 
-		powerState == 'VM deallocated'
+		powerState == 'VM deallocated' &&
+		tags.AttemptRestartAfterEviction &&
+		tags.AttemptRestartAfterEviction == 'true'
 	].{Name:name}";
-	
+
 DEALLOCATED_VM_NAMES=$(az vm list -g ${RESOURCE_GROUP} -d -o tsv --query "${SPOT_ALLOCATION_QUERY}");
 
 VM_NAMES_ARRAY=($DEALLOCATED_VM_NAMES);
@@ -19,7 +21,7 @@ ARRAY_LENGTH=${#VM_NAMES_ARRAY[@]};
 
 if [ $ARRAY_LENGTH -ge 1 ]
 	then
-		echo "Found ${ARRAY_LENGTH} deallocated VM(s).";
+		echo "Found ${ARRAY_LENGTH} deallocated VM(s) tagged for restart after eviction.";
 
 		for (( i=0; i<$ARRAY_LENGTH; i++ )); 
 		do
@@ -28,5 +30,5 @@ if [ $ARRAY_LENGTH -ge 1 ]
 		done
 
 	else
-		echo "No deallocated VMs discovered.";
+		echo "No deallocated VMs tagged for restart after eviction discovered.";
 fi
