@@ -8,8 +8,10 @@ ENDPOINT_URL="http://${ENDPOINT_IP}/metadata/scheduledevents?api-version=${API_V
 
 if [ "$(curl -s -H ${HEADER} ${ENDPOINT_URL} | grep -c Preempt)" -ge 1 ]
     then
-        echo "Azure Preempt event found... Shutting down.";
+        echo "Azure preempt event found... Shutting down.";
+        wall "Azure preempt event found... Shutting down cleanly prior to eviction.";
+        sleep 5;
 	    shutdown now "Shutting down. Virtual machine is being evicted.";
     else
-        echo "No Azure Preempt event found.";
+        echo "No Azure preempt event found.";
 fi
