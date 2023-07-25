@@ -3,7 +3,14 @@
 # exit on error
 set -e;
 
-## Install azure cli
+# ensure this script is running as root or sudo
+if [ $(id -u) -ne 0 ]
+  then
+    echo "This script must be run as root or in a sudo context. Exiting.";
+    exit 1;
+fi
+
+## Install azure cli: REVIEW MS SCRIPT PRIOR TO EXECUTION
 curl -sL https://aka.ms/InstallAzureCLIDeb | bash;
 
 # Log in
