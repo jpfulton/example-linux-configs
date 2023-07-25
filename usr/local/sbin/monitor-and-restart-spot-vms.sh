@@ -94,5 +94,5 @@ if [ $ARRAY_LENGTH -ge 1 ]
 		echo "No deallocated VMs tagged for restart after eviction discovered.";
 fi
 
-## Remove lock file.
+# Remove lock file.
 rm $LOCK_FILE;
