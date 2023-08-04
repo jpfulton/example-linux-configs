@@ -1,7 +1,7 @@
 # /etc/cron.d/preempt-query: crontab entries for the vm preempt event query script
 
 SHELL=/bin/sh
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin
 
 * * * * * root ( /usr/local/sbin/query-for-preempt-event.sh ) 2>&1 | logger -t preempt-query
 * * * * * root ( sleep 10 ; /usr/local/sbin/query-for-preempt-event.sh ) 2>&1 | logger -t preempt-query
