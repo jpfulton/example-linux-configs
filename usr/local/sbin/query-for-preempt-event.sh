@@ -10,6 +10,8 @@ if [ "$(curl -s -H ${HEADER} ${ENDPOINT_URL} | grep -c Preempt)" -ge 1 ]
     then
         echo "Azure preempt event found... Shutting down.";
         wall "Azure preempt event found... Shutting down cleanly prior to eviction.";
+        sms-notify-cli eviction $(hostname);
+
         sleep 5;
 	    shutdown now "Shutting down. Virtual machine is being evicted.";
     else
