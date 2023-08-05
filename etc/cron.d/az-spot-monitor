@@ -1,6 +1,6 @@
 # /etc/cron.d/az-spot-monitor: crontab entries for the az spot vm monitor script
 
 SHELL=/bin/sh
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/sbin
 
 * * * * * root ( /usr/local/sbin/monitor-and-restart-spot-vms.sh ) 2>&1 | logger -t az-spot-monitor
