@@ -57,7 +57,7 @@ if [ ! -f ${MOTD_PATH}${MOTD_FILE} ]
 fi
 
 # Install Node as needed
-which node;
+which node >> /dev/null;
 if [ $? -eq 0 ]
   then
     NODE_VERSION=$(node --version);
@@ -78,7 +78,7 @@ if [ $? -eq 0 ]
 fi
 
 # Install Yarn as needed
-which yarn;
+which yarn >> /dev/null;
 if [ $? -eq 1 ]
   then
     echo "Yarn not detected. Preparing to install.";
@@ -93,7 +93,7 @@ if [ $? -eq 1 ]
 fi
 
 # Install or upgrade sms-notify-cli utility
-which sms-notify-cli;
+which sms-notify-cli >> /dev/null;
 if [ $? -eq 1 ]
   then
     echo "sms-notify-cli utility not detected. Preparing to install.";
