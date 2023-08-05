@@ -133,3 +133,32 @@ mv ./${EVICTION_QUERY_CRON_SNIPPET_FILE} /etc/cron.d/
 
 echo "---";
 echo;
+
+# Set up OpenVPN scripts if OpenVPN is installed
+OPENVPN_DIR="/etc/openvpn/";
+OPENVPN_SCRIPTS_DIR="/etc/openvpn/scripts/";
+CONNECT_SCRIPT="on-connect.sh";
+DISCONNECT_SCRIPT="on-disconnect.sh";
+VERIFY_SCRIPT="on-tls-verify.sh";
+if [ -d $OPENVPN_DIR ]
+  then
+    echo "OpenVPN configuration folder exists. Installing scripts.";
+
+    if [ ! -d $OPENVPN_SCRIPTS_DIR ]
+      then
+        echo "Creating scripts directory.";
+        mkdir $OPENVPN_SCRIPTS_DIR;
+    fi
+
+    wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
+    chmod a+x ./${CONNECT_SCRIPT}
+    mv ./${CONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT}
+
+    wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
+    chmod a+x ./${DISCONNECT_SCRIPT}
+    mv ./${DISCONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT}
+
+    wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
+    chmod a+x ./${VERIFY_SCRIPT}
+    mv ./${VERIFY_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT}
+fi
