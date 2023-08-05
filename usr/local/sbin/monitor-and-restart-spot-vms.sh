@@ -88,6 +88,8 @@ if [ $ARRAY_LENGTH -ge 1 ]
 		do
 			echo "Attempting to start VM: ${VM_NAMES_ARRAY[i]}";
 			az vm start -g ${RESOURCE_GROUP} --name ${VM_NAMES_ARRAY[i]};
+
+			sms-notify-cli restarted ${VM_NAMES_ARRAY[i]};
 		done
 
 	else
