@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# exit on error
-set -e;
-
 # ensure this script is running as root or sudo
 if [ $(id -u) -ne 0 ]
   then
