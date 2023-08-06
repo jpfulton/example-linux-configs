@@ -1,9 +1,36 @@
 #!/usr/bin/env bash
 
+# expect at least two arguments
 [ $# -lt 2 ] && exit 1;
  
 # if the depth is non-zero , continue processing 
 [ "$1" -ne 0 ] && exit 0;
 
-sudo sms-notify-cli vpn-attempt -i ${untrusted_ip} -n "$2";
+IP=${untrusted_ip};
+CERT_CN="$2";
+STATUS_FILE="/var/log/openvpn/openvpn-status.log";
+
+sms-notify () {
+  sudo sms-notify-cli vpn-attempt -i "$1" -n "$2";
+}
+
+search-status-file () {
+  local PARSED_CN=${CERT_CN:4};
+  local CN_COUNT=$(cat ${STATUS_FILE} | grep -c ${PARSED_CN});
+
+  if [ $CN_COUNT -lt 2 ]
+    then
+      return 1;
+    else
+      return 0;
+  fi
+}
+
+search-status-file;
+if [ $? -eq 1 ]
+  then
+    sms-notify $IP $CERT_CN && exit 0;
+fi
+
+# catch all
 exit 0;
