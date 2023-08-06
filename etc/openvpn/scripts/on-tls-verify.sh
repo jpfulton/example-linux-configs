@@ -31,7 +31,7 @@ search-allowed-clients-file () {
 search-allowed-clients-file;
 if [ $? -eq 1 ]
   then
-    sms-notify $IP $CERT_CN && exit 0;
+    sms-notify $IP $CERT_CN && exit 1; # Notify and disallow the connection
 fi
 
 # catch all
