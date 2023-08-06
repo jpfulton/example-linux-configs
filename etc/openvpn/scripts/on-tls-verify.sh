@@ -8,17 +8,19 @@
 
 IP=${untrusted_ip};
 CERT_CN="$2"; # Passed in the form "CN=CommonName"
-STATUS_FILE="/var/log/openvpn/openvpn-status.log";
+ALLOWED_CLIENTS_FILE="/etc/openvpn/allowed_clients";
 
 sms-notify () {
-  sudo sms-notify-cli vpn-attempt -i "$1" -n "$2";
+  sudo sms-notify-cli vpn-bad-attempt -i "$1" -n "$2";
 }
 
-search-status-file () {
+search-allowed-clients-file () {
   local PARSED_CN=${CERT_CN:3}; # Remove "CN=" from the string
-  local CN_COUNT=$(cat ${STATUS_FILE} | grep -c ${PARSED_CN});
 
-  if [ $CN_COUNT -lt 2 ]
+  # Get a count of instances off the parsed CN on lines that don't start with "#"
+  local CN_COUNT=$(cat ${ALLOWED_CLIENTS_FILE} | grep "^[^#;]" | grep -c ${PARSED_CN});
+
+  if [ $CN_COUNT -lt 1 ]
     then
       return 1;
     else
@@ -26,7 +28,7 @@ search-status-file () {
   fi
 }
 
-search-status-file;
+search-allowed-clients-file;
 if [ $? -eq 1 ]
   then
     sms-notify $IP $CERT_CN && exit 0;
