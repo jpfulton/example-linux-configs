@@ -7,7 +7,7 @@
 [ "$1" -ne 0 ] && exit 0;
 
 IP=${untrusted_ip};
-CERT_CN="$2";
+CERT_CN="$2"; # Passed in the form "CN=CommonName"
 STATUS_FILE="/var/log/openvpn/openvpn-status.log";
 
 sms-notify () {
@@ -15,7 +15,7 @@ sms-notify () {
 }
 
 search-status-file () {
-  local PARSED_CN=${CERT_CN:4};
+  local PARSED_CN=${CERT_CN:3}; # Remove "CN=" from the string
   local CN_COUNT=$(cat ${STATUS_FILE} | grep -c ${PARSED_CN});
 
   if [ $CN_COUNT -lt 2 ]
