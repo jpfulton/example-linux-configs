@@ -134,6 +134,14 @@ mv ./${EVICTION_QUERY_CRON_SNIPPET_FILE} /etc/cron.d/
 echo "---";
 echo;
 
+# Install nmap as needed
+which nmap >> /dev/null;
+if [ $? -eq 1 ]
+  then
+    echo "nmap not detected. Preparing to install.";
+    apt install -y nmap;
+fi
+
 # Set up OpenVPN scripts if OpenVPN is installed
 OPENVPN_DIR="/etc/openvpn/";
 OPENVPN_SCRIPTS_DIR="/etc/openvpn/scripts/";
