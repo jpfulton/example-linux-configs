@@ -27,7 +27,7 @@ setup-firewall-defaults-and-ssh () {
     then
       echo "Local firewall is inactive. Configuring and enabling with SSH rule...";
 
-      wget ${BASE_REPO_URL}${DEFAULTS_PATH}${UFW_DEFAULTS_FILE} -O ${UFW_DEFAULTS_FILE};
+      wget -q ${BASE_REPO_URL}${DEFAULTS_PATH}${UFW_DEFAULTS_FILE} -O ${UFW_DEFAULTS_FILE};
       mv ${UFW_DEFAULTS_FILE} ${DEFAULTS_PATH};
 
       ufw allow ssh;
@@ -51,7 +51,7 @@ setup-motd () {
       echo "Setting up custom MOTD script...";
 
       apt install -y neofetch inxi;
-      wget ${BASE_REPO_URL}${MOTD_PATH}${MOTD_FILE} -O ${MOTD_FILE};
+      wget -q ${BASE_REPO_URL}${MOTD_PATH}${MOTD_FILE} -O ${MOTD_FILE};
       chmod a+x ./${MOTD_FILE};
       mv ./${MOTD_FILE} ${MOTD_PATH}${MOTD_FILE};
 
@@ -138,11 +138,11 @@ setup-eviction-shutdown-system () {
   local EVICTION_QUERY_SCRIPT="query-for-preempt-event.sh";
   echo "Setting up eviction query script...";
 
-  wget ${BASE_REPO_URL}/usr/local/sbin/${EVICTION_QUERY_SCRIPT};
+  wget -q ${BASE_REPO_URL}/usr/local/sbin/${EVICTION_QUERY_SCRIPT};
   chmod ug+x ./${EVICTION_QUERY_SCRIPT}
   mv ./${EVICTION_QUERY_SCRIPT} /usr/local/sbin/
 
-  wget ${BASE_REPO_URL}/etc/cron.d/${EVICTION_QUERY_CRON_SNIPPET_FILE};
+  wget -q ${BASE_REPO_URL}/etc/cron.d/${EVICTION_QUERY_CRON_SNIPPET_FILE};
   mv ./${EVICTION_QUERY_CRON_SNIPPET_FILE} /etc/cron.d/
 
   echo "---";
@@ -175,11 +175,11 @@ setup-openvpn-support-scripts () {
       setup-nmap;
 
       echo "Installing OpenVPN client template...";
-      wget ${BASE_REPO_URL}${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
+      wget -q ${BASE_REPO_URL}${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
       mv ./${BASE_CLIENT_CONFIG} ${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
 
       echo "Installing OpenVPN client config generation script...";
-      wget ${BASE_REPO_URL}${HOME_DIR}${CLIENT_CONFIG_SCRIPT};
+      wget -q ${BASE_REPO_URL}${HOME_DIR}${CLIENT_CONFIG_SCRIPT};
       chmod a+x ${CLIENT_CONFIG_SCRIPT};
 
       echo "Installing OpenVPN scripts...";
@@ -189,15 +189,15 @@ setup-openvpn-support-scripts () {
           mkdir $OPENVPN_SCRIPTS_DIR;
       fi
 
-      wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
+      wget -q ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
       chmod a+x ./${CONNECT_SCRIPT};
       mv ./${CONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
 
-      wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
+      wget -q ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
       chmod a+x ./${DISCONNECT_SCRIPT};
       mv ./${DISCONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
 
-      wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
+      wget -q ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
       chmod a+x ./${VERIFY_SCRIPT};
       mv ./${VERIFY_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
   fi
