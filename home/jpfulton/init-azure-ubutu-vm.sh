@@ -8,6 +8,7 @@ if [ $(id -u) -ne 0 ]
 fi
 
 BASE_REPO_URL="https://raw.githubusercontent.com/jpfulton/example-linux-configs/main";
+HOME_DIR="/home/jpfulton/";
 
 # Upgrade base image packages
 echo "Upgrading base packages...";
@@ -144,14 +145,25 @@ fi
 
 # Set up OpenVPN scripts if OpenVPN is installed
 OPENVPN_DIR="/etc/openvpn/";
+BASE_CLIENT_CONFIG="base-client-config.ovpn";
+CLIENT_CONFIG_SCRIPT="create-client-openvpn-config.sh";
 OPENVPN_SCRIPTS_DIR="/etc/openvpn/scripts/";
 CONNECT_SCRIPT="on-connect.sh";
 DISCONNECT_SCRIPT="on-disconnect.sh";
 VERIFY_SCRIPT="on-tls-verify.sh";
 if [ -d $OPENVPN_DIR ]
   then
-    echo "OpenVPN configuration folder exists. Installing scripts.";
+    echo "OpenVPN configuration folder exists.";
 
+    echo "Installing OpenVPN client template...";
+    wget ${BASE_REPO_URL}${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
+    mv ./${BASE_CLIENT_CONFIG} ${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
+
+    echo "Installing OpenVPN client config generation script...";
+    wget ${BASE_REPO_URL}${HOME_DIR}${CLIENT_CONFIG_SCRIPT};
+    chmod a+x ${CLIENT_CONFIG_SCRIPT};
+
+    echo "Installing OpenVPN scripts...";
     if [ ! -d $OPENVPN_SCRIPTS_DIR ]
       then
         echo "Creating scripts directory.";
@@ -159,14 +171,14 @@ if [ -d $OPENVPN_DIR ]
     fi
 
     wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
-    chmod a+x ./${CONNECT_SCRIPT}
-    mv ./${CONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT}
+    chmod a+x ./${CONNECT_SCRIPT};
+    mv ./${CONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${CONNECT_SCRIPT};
 
     wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
-    chmod a+x ./${DISCONNECT_SCRIPT}
-    mv ./${DISCONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT}
+    chmod a+x ./${DISCONNECT_SCRIPT};
+    mv ./${DISCONNECT_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${DISCONNECT_SCRIPT};
 
     wget ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
-    chmod a+x ./${VERIFY_SCRIPT}
-    mv ./${VERIFY_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT}
+    chmod a+x ./${VERIFY_SCRIPT};
+    mv ./${VERIFY_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
 fi
