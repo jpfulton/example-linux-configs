@@ -191,7 +191,7 @@ setup-openvpn-support-scripts () {
       mv ./${BASE_CLIENT_CONFIG} ${OPENVPN_DIR}${BASE_CLIENT_CONFIG};
 
       echo "Installing OpenVPN client config generation script...";
-      wget -q ${BASE_REPO_URL}${HOME_DIR}${CLIENT_CONFIG_SCRIPT};
+      wget -q -O ${CLIENT_CONFIG_SCRIPT} ${BASE_REPO_URL}${HOME_DIR}${CLIENT_CONFIG_SCRIPT};
       chmod a+x ./${CLIENT_CONFIG_SCRIPT};
 
       echo "Installing OpenVPN scripts...";
