@@ -175,7 +175,7 @@ setup-openvpn-support-scripts () {
   # Set up OpenVPN scripts if OpenVPN is installed
   local OPENVPN_DIR="/etc/openvpn/";
   local BASE_CLIENT_CONFIG="base-client-config.ovpn";
-  local CLIENT_CONFIG_SCRIPT="create-client-openvpn-config.sh";
+  local CLIENT_CONFIG_SCRIPT="create-client-ovpn-config.sh";
   local OPENVPN_SCRIPTS_DIR="/etc/openvpn/scripts/";
   local CONNECT_SCRIPT="on-connect.sh";
   local DISCONNECT_SCRIPT="on-disconnect.sh";
