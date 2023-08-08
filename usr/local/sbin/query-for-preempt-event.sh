@@ -45,7 +45,10 @@ if [ "$(curl -s -H ${HEADER} ${ENDPOINT_URL} | grep -c Preempt)" -ge 1 ]
         echo "Azure preempt event found... Shutting down.";
         wall "Azure preempt event found... Shutting down cleanly prior to eviction.";
 
-        echo "$(date) - EVICTION - Azure preempt event discovered." >> $LOG_FILE;
+				NOW=$(date);
+        echo "${NOW} - EVICTION - Azure preempt event discovered." >> $LOG_FILE;
+				echo "${NOW} - STATS - $(uptime -p) at time of eviction." >> $LOG_FILE;
+				
         sms-notify-cli eviction $(hostname);
 
         sleep 5;
