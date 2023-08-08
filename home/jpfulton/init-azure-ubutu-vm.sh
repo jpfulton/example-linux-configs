@@ -81,6 +81,9 @@ setup-nodejs () {
       curl -sL  https://deb.nodesource.com/setup_18.x | bash -;
       apt install -y nodejs;
   fi
+
+  echo "---";
+  echo;
 }
 
 setup-yarn () {
@@ -98,6 +101,9 @@ setup-yarn () {
       local YARN_VERSION=$(yarn --version);
       echo "Found yarn version: ${YARN_VERSION}";
   fi
+
+  echo "---";
+  echo;
 }
 
 setup-sms-notifier () {
@@ -130,6 +136,9 @@ setup-sms-notifier () {
       echo "Manual configuration to the ${NOTIFIER_CONFIG} file will be required.";
       sms-notify-cli init;
   fi
+
+  echo "---";
+  echo;
 }
 
 setup-eviction-shutdown-system () {
@@ -156,6 +165,9 @@ setup-nmap () {
     then
       echo "nmap not detected. Preparing to install.";
       apt install -y nmap;
+
+      echo "---";
+      echo;
   fi
 }
 
@@ -200,6 +212,9 @@ setup-openvpn-support-scripts () {
       wget -q ${BASE_REPO_URL}${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
       chmod a+x ./${VERIFY_SCRIPT};
       mv ./${VERIFY_SCRIPT} ${OPENVPN_SCRIPTS_DIR}${VERIFY_SCRIPT};
+
+      echo "---";
+      echo;
   fi
 }
 
@@ -212,6 +227,10 @@ main () {
   setup-sms-notifier;
   setup-eviction-shutdown-system;
   setup-openvpn-support-scripts;
+
+  echo "---";
+  echo "Done.";
+  echo;
 }
 
 main;
