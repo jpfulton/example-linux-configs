@@ -117,6 +117,8 @@ setup-sms-notifier () {
       echo "Found sms-notify-cli utility. Attempting update.";
       yarn global upgrade @jpfulton/net-sms-notifier-cli@latest;
   fi
+  echo "---";
+  echo;
 
   # Initialize sms-notify-cli configuration
   local NOTIFIER_CONFIG="/etc/sms-notifier/notifier.json";
